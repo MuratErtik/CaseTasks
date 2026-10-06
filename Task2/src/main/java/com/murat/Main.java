@@ -26,7 +26,9 @@ public class Main {
 
         String criteria = getSortCriteria();
 
-        System.out.println(criteria);
+        boolean ascending = sortOrderBy();
+
+        System.out.println(ascending);
 
 
 
@@ -46,6 +48,25 @@ public class Main {
             }
 
             System.out.println("Please enter a valid criteria: name, stock or rating.");
+        }
+    }
+
+    private static boolean sortOrderBy() {
+
+        while (true) {
+
+            System.out.print("Ascending or descending? (ascending/descending): ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equals("ascending")) {
+                return true;
+            }
+            if (input.equals("descending")) {
+                return false;
+            }
+
+            System.out.println("Please enter a valid order: ascending or descending.");
         }
     }
 
