@@ -130,8 +130,6 @@ public class Main {
 
         while(true) {
 
-            System.out.println("Press q to exit the program");
-
             System.out.print("Do you want to case sensitivity choice? (y/n): ");
 
             String choice = scanner.next();
