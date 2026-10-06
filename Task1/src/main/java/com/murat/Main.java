@@ -111,7 +111,7 @@ public class Main {
 
 
             }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
-                System.out.println("Please enter input length must be less than or equal to the limit.");
+                System.out.println("Input length must be less than or equal to the limit. Please try again.");
             }
 
 
