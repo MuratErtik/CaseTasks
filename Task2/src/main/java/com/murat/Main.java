@@ -47,7 +47,7 @@ public class Main {
 
             System.out.println("******* Adding Product " + i + ": ******");
 
-            String name = "m";
+            String name = setProductName(products);
 
             BigDecimal price = BigDecimal.valueOf(23);
 
@@ -93,6 +93,39 @@ public class Main {
     }
 
 
+
+    private static String setProductName(List<Product> existing) {
+
+        while (true) {
+
+            System.out.print("Product name: ");
+
+            String name = scanner.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Product name cannot be empty.");
+            } else if (name.length() > MAX_NAME_LENGTH) {
+                System.out.println("Product name cannot be longer than " + MAX_NAME_LENGTH + " characters.");
+            } else if (nameAlreadyExistsInProducts(existing, name)) {
+                System.out.println("A product with this name already exists.");
+            } else {
+
+                return name;
+            }
+        }
+    }
+
+    private static boolean nameAlreadyExistsInProducts(List<Product> products, String name) {
+
+        for (Product product : products) {
+
+            if (product.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 }
