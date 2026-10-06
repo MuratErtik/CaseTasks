@@ -2,6 +2,7 @@ package com.murat;
 
 
 import com.murat.exceptions.InputLengthMustBeLessThanOrEqualToLimitException;
+import com.murat.exceptions.InputNotEqualYesOrNoException;
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
 import java.util.Scanner;
 
@@ -20,7 +21,9 @@ public class Main {
 
         String input = getInput(limit);
 
-        System.out.println("your limit is " + limit + "and your input is " + input);
+        String choice = getCaseSensitivityChoice();
+
+        System.out.println("your limit is " + limit + "and your input is " + input+ "and your choice is " + choice);
 
 
 
@@ -121,48 +124,41 @@ public class Main {
         return inputToReturn;
     }
 
-    private static String getCaseSensitivityChoice(int limit) {
+    private static String getCaseSensitivityChoice() {
 
-        String inputToReturn = "";
+        String choiceToReturn = "";
 
         while(true) {
 
             System.out.println("Press q to exit the program");
 
-            System.out.print("Please enter your input(only space is not allowed!): ");
+            System.out.print("Do you want to case sensitivity choice? (y/n): ");
 
-            String input = scanner.next();
+            String choice = scanner.next();
 
-            String trimmedInput = input.trim();
-
-            if (isProgramQuitting(trimmedInput)) {
-                System.out.println("see you later");
-                break;
-            }
+            String trimmedChoice = choice.trim().substring(0, 1);
 
             try {
 
 
-                if(isInputLengthLessThanOrEqualToLimit(trimmedInput, limit)) {
-                    throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit.");
+                if(isInputNotEqualYesOrNo(trimmedChoice)) {
+                    throw new InputNotEqualYesOrNoException("Choice must be only Yes(y/Y) or No(n/N).");
 
                 }
 
-                System.out.println(trimmedInput);
-                inputToReturn = trimmedInput;
+                System.out.println(trimmedChoice);
+                choiceToReturn = trimmedChoice.toLowerCase();
 
                 break;
 
 
-            }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
-                System.out.println("Input length must be less than or equal to the limit. Please try again.");
+            }catch (InputNotEqualYesOrNoException e){
+                System.out.println("Choice must be only Yes(y/Y) or No(n/N). Please try again.");
             }
-
-
 
         }
 
-        return inputToReturn;
+        return choiceToReturn;
     }
 
     private static Boolean isGreaterThanZero(int number) {
@@ -175,5 +171,12 @@ public class Main {
 
     private static Boolean isInputLengthLessThanOrEqualToLimit(String input, int limit) {
         return input.length()>limit;
+    }
+
+    private static Boolean isInputNotEqualYesOrNo(String input) {
+
+        input = input.toLowerCase();
+
+        return  !(input.equals("no") || input.equals("n") || input.equals("yes") || input.equals("y"));
     }
 }
