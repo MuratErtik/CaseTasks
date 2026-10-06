@@ -2,7 +2,6 @@ package com.murat;
 
 
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
-
 import java.util.Scanner;
 
 public class Main {
@@ -14,9 +13,11 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        int limitToInt;
+        int limitToInt=-1;
 
         while(true) {
+
+            System.out.println("Press q to exit the program");
 
             System.out.print("Before the starting please enter maximum number of characters: ");
 
@@ -24,11 +25,17 @@ public class Main {
 
             String trimmedLimit = limit.trim();
 
+            if (trimmedLimit.equals("q")) {
+                System.out.println("see you later");
+                break;
+            }
+
             try {
 
                 limitToInt = Integer.parseInt(trimmedLimit);
 
-                if (limitToInt < 1) {
+
+                if (isGreaterThanZero(limitToInt)) {
                     throw new LimitMustBeGreaterThanZeroException("Limit must be greater than 0");
                 }
 
@@ -51,5 +58,9 @@ public class Main {
 
 
 
+    }
+
+    private static Boolean isGreaterThanZero(int number) {
+        return number < 1 ;
     }
 }
