@@ -10,10 +10,10 @@ public class Product {
 
     private final int stock;
 
-    private final BigDecimal rating;
+    private final Double rating;
 
 
-    public Product(String name, BigDecimal unitPrice, int stock, BigDecimal rating) {
+    public Product(String name, BigDecimal unitPrice, int stock, Double rating) {
         this.name = name;
         this.unitPrice = unitPrice;
         this.stock = stock;
@@ -32,7 +32,7 @@ public class Product {
         return stock;
     }
 
-    public BigDecimal getRating() {
+    public Double getRating() {
         return rating;
     }
 

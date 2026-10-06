@@ -15,8 +15,8 @@ public class Main {
     private static final int MAX_NAME_LENGTH = 20;
     private static final BigDecimal MIN_PRICE = new BigDecimal("1");
     private static final BigDecimal MAX_PRICE = new BigDecimal("100");
-    private static final BigDecimal MIN_RATING = new BigDecimal("1");
-    private static final BigDecimal MAX_RATING = new BigDecimal("5");
+    private static final Double MIN_RATING = Double.valueOf("1.00");
+    private static final Double MAX_RATING =  Double.valueOf("5.00");
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -29,7 +29,7 @@ public class Main {
             System.out.println(product.getName()
                     + " - Price: " + (product.getUnitPrice())
                     + ", Stock: " + product.getStock()
-                    + ", Rating: " + product.getRating().toPlainString());
+                    + ", Rating: " + product.getRating());
         }
 
 
@@ -53,7 +53,7 @@ public class Main {
 
             int stock = setProductStock();
 
-            BigDecimal rating = BigDecimal.valueOf(2);
+            Double rating =setProductRating();
 
             Product product = new Product(name, price, stock, rating);
 
@@ -177,6 +177,37 @@ public class Main {
 
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number!");
+            }
+        }
+    }
+
+    private static Double setProductRating() {
+
+        while (true) {
+
+            System.out.print("Rating: ");
+
+            Double rating = null;
+
+            try {
+                rating = scanner.nextDouble();
+
+            } catch (java.util.InputMismatchException e) {
+
+                scanner.nextLine();
+                System.out.println("Please enter a valid number.");
+                continue;
+            }
+
+            if (rating == null) {
+
+                System.out.println("Please enter a valid rating with at most 2 decimal places.");
+
+            } else if (rating.compareTo(MIN_RATING) < 0 || rating.compareTo(MAX_RATING) > 0) {
+                System.out.println("Rating must be between " + MIN_RATING + " and " + MAX_RATING);
+            } else {
+
+                return rating;
             }
         }
     }
