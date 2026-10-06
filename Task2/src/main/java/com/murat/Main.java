@@ -5,7 +5,9 @@ import com.murat.domain.Product;
 
 import java.math.BigDecimal;
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,10 +32,49 @@ public class Main {
 
         System.out.println(ascending);
 
+        List<Product> sortedProducts = sortProducts(products, criteria, ascending);
+
+        printProducts(sortedProducts);
 
 
 
     }
+
+    private static List<Product> sortProducts(List<Product> products, String criteria, boolean ascending) {
+
+        Comparator<Product> byName = Comparator.comparing(p -> p.getName().toLowerCase());
+
+        Comparator<Product> comparator;
+
+        if (criteria.equals("stock")) {
+
+            comparator = Comparator.comparingInt(Product::getStock);
+
+        } else if (criteria.equals("rating")) {
+
+            comparator = Comparator.comparingDouble(Product::getRating);
+
+        } else {
+            comparator = byName;
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        //if other units are same with each other after than compare with this field!!
+        if (!criteria.equals("name")) {
+            comparator = comparator.thenComparing(byName);
+        }
+
+        List<Product> sorted = new ArrayList<>(products);
+
+
+        sorted.sort(comparator);
+
+        return sorted;
+    }
+
 
     private static String getSortCriteria() {
 
@@ -242,6 +283,21 @@ public class Main {
 
                 return rating;
             }
+        }
+    }
+
+
+    private static void printProducts(List<Product> products) {
+
+        System.out.println("Sorted Products:");
+
+        for (Product product : products) {
+            System.out.println("*****************************************");
+            System.out.println(product.getName()
+                    + " - Price: " + product.getUnitPrice().setScale(2, RoundingMode.HALF_UP).toString()
+                    + ", Stock: " + product.getStock()
+                    + ", Rating: " + product.getRating());
+            System.out.println("*****************************************");
         }
     }
 
