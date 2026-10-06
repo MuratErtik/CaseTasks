@@ -49,7 +49,7 @@ public class Main {
 
             String name = setProductName(products);
 
-            BigDecimal price = BigDecimal.valueOf(23);
+            BigDecimal price = setProductPrice();
 
             int stock = 1;
 
@@ -125,6 +125,35 @@ public class Main {
         }
 
         return false;
+    }
+
+    private static BigDecimal setProductPrice() {
+
+        while (true) {
+
+            System.out.print("Unit price: ");
+
+            String input = scanner.nextLine().trim();
+
+            BigDecimal price;
+
+            try {
+                price = new BigDecimal(input);
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+                continue;
+            }
+
+
+            if (price == null) {
+                System.out.println("Please enter a valid price with at most 2 decimal places.");
+            } else if (price.compareTo(MIN_PRICE) < 0 || price.compareTo(MAX_PRICE) > 0) {
+                System.out.println("Price must be between " + MIN_PRICE +" and " + MAX_PRICE);
+            } else {
+                return price;
+            }
+        }
     }
 
 
