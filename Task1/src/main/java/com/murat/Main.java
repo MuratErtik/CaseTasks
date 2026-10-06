@@ -3,6 +3,7 @@ package com.murat;
 
 import com.murat.exceptions.ForAnalyzeNeedOneCharException;
 import com.murat.exceptions.InputLengthMustBeLessThanOrEqualToLimitException;
+import com.murat.exceptions.InputMustNotBeBlankException;
 import com.murat.exceptions.InputNotEqualYesOrNoException;
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
 import java.util.Scanner;
@@ -24,9 +25,19 @@ public class Main {
 
         String choice = getCaseSensitivityChoice();
 
-        Character charToAnalyze = getCharToAnalyze(choice);
+        Character charToAnalyze;
 
-        result(input,charToAnalyze,choice);
+        String analyzeAnotherChoice;
+
+        do {
+
+            charToAnalyze = getCharToAnalyze();
+
+            result(input,charToAnalyze,choice);
+
+            analyzeAnotherChoice = getYesNoChoice("Do you want to analyze another character? (y/n): ");
+
+        } while (analyzeAnotherChoice.equals("y"));
 
         System.out.println("your limit is " + limit + "and your input is " + input+ "and your choice is " + choice+" and your character is " + charToAnalyze);
 
@@ -47,18 +58,11 @@ public class Main {
 
         while(true) {
 
-            System.out.println("Press q to exit the program");
-
             System.out.print("Before the starting please enter maximum number of characters: ");
 
             String limit = scanner.nextLine();
 
             String trimmedLimit = limit.trim();
-
-            if (isProgramQuitting(trimmedLimit)) {
-                System.out.println("see you later");
-                break;
-            }
 
             try {
 
@@ -90,21 +94,17 @@ public class Main {
 
         while(true) {
 
-            System.out.println("Press q to exit the program");
-
             System.out.print("Please enter your input(only space is not allowed!): ");
 
             String input = scanner.nextLine();
 
             String trimmedInput = input.trim();
 
-            if (isProgramQuitting(trimmedInput)) {
-                System.out.println("see you later");
-                break;
-            }
-
             try {
 
+                if (trimmedInput.isEmpty()) {
+                    throw new InputMustNotBeBlankException("Input must not be blank.");
+                }
 
                 if(isInputLengthLessThanOrEqualToLimit(trimmedInput, limit)) {
                     throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit.");
@@ -117,6 +117,8 @@ public class Main {
                 break;
 
 
+            }catch (InputMustNotBeBlankException e){
+                System.out.println("Input must not be blank. Please try again.");
             }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
                 System.out.println("Input length must be less than or equal to the limit. Please try again.");
             }
@@ -130,15 +132,20 @@ public class Main {
 
     private static String getCaseSensitivityChoice() {
 
+        return getYesNoChoice("Do you want to case sensitivity choice? (y/n): ");
+    }
+
+    private static String getYesNoChoice(String prompt) {
+
         String choiceToReturn = "";
 
         while(true) {
 
-            System.out.print("Do you want to case sensitivity choice? (y/n): ");
+            System.out.print(prompt);
 
             String choice = scanner.nextLine();
 
-            String trimmedChoice = choice.trim().substring(0, 1);
+            String trimmedChoice = choice.trim();
 
             try {
 
@@ -149,7 +156,7 @@ public class Main {
                 }
 
                 System.out.println(trimmedChoice);
-                choiceToReturn = trimmedChoice.toLowerCase();
+                choiceToReturn = trimmedChoice.toLowerCase().substring(0, 1);
 
                 break;
 
@@ -163,7 +170,7 @@ public class Main {
         return choiceToReturn;
     }
 
-    private static Character getCharToAnalyze(String choice) {
+    private static Character getCharToAnalyze() {
 
         String inputToReturn = "";
 
@@ -179,7 +186,7 @@ public class Main {
 
             try {
 
-                if (trimmedInput.length()>1){
+                if (trimmedInput.length() != 1){
                     throw new ForAnalyzeNeedOneCharException("For analyze it needs to only one character! Program wants to only one character");
                 }
 
@@ -194,12 +201,7 @@ public class Main {
             }
         }
 
-        if (choice.equals("y")) {
-            return inputToReturn.charAt(0);
-        }
-        else{
-            return inputToReturn.toLowerCase().charAt(0);
-        }
+        return inputToReturn.charAt(0);
 
     }
 
@@ -238,10 +240,6 @@ public class Main {
 
     private static Boolean isGreaterThanZero(int number) {
         return number < 1 ;
-    }
-
-    private static Boolean isProgramQuitting(String input) {
-        return input.equals("q");
     }
 
     private static Boolean isInputLengthLessThanOrEqualToLimit(String input, int limit) {
