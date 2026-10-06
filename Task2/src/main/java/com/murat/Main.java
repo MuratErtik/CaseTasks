@@ -24,17 +24,29 @@ public class Main {
 
         List<Product> products = createProductsList();
 
-        //debug
-        for (Product product : products) {
-            System.out.println(product.getName()
-                    + " - Price: " + (product.getUnitPrice())
-                    + ", Stock: " + product.getStock()
-                    + ", Rating: " + product.getRating());
+        String criteria = getSortCriteria();
+
+        System.out.println(criteria);
+
+
+
+
+    }
+
+    private static String getSortCriteria() {
+
+        while (true) {
+
+            System.out.print("Which criterion do you want to sort products? (name/stock/rating): ");
+
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equals("name") || input.equals("stock") || input.equals("rating")) {
+                return input;
+            }
+
+            System.out.println("Please enter a valid criteria: name, stock or rating.");
         }
-
-
-
-
     }
 
     private static List<Product> createProductsList() {
