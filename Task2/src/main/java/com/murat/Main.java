@@ -51,7 +51,7 @@ public class Main {
 
             BigDecimal price = setProductPrice();
 
-            int stock = 1;
+            int stock = setProductStock();
 
             BigDecimal rating = BigDecimal.valueOf(2);
 
@@ -152,6 +152,31 @@ public class Main {
                 System.out.println("Price must be between " + MIN_PRICE +" and " + MAX_PRICE);
             } else {
                 return price;
+            }
+        }
+    }
+
+    private static int setProductStock() {
+
+        while (true) {
+
+            System.out.print("Stock quantity: ");
+
+            String input = scanner.nextLine().trim();
+
+            try {
+
+                int stock = Integer.parseInt(input);
+
+                if (stock >= 1) {
+
+                    return stock;
+                }
+
+                System.out.println("Stock must be at least 1.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number!");
             }
         }
     }
