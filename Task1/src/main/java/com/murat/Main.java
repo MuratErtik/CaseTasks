@@ -20,7 +20,24 @@ public class Main {
 
         String trimmedLimit = limit.trim();
 
-        System.out.println(trimmedLimit);
+        try {
+
+            int limitToInt = Integer.parseInt(trimmedLimit);
+
+            if (limitToInt < 1) {
+                throw new LimitMustBeGreaterThanZeroException("Limit must be greater than 0");
+            }
+
+        }catch (NumberFormatException e){
+            System.out.println("Please enter a valid integer.");
+        }catch (LimitMustBeGreaterThanZeroException e){
+            System.out.println("Please enter a positive number for the maximum number of characters.");
+        }
+
+        System.out.println("**********************************   FindMyChar(Final)  **************************************************");
+        System.out.println("*****************************************************************************************************");
+
+
 
     }
 }
