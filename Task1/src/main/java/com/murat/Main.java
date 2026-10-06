@@ -16,9 +16,9 @@ public class Main {
         System.out.println("*****************************************************************************************************");
 
 
-        int limit = getMaximumNumberOfCharactersFromUser();
+        int limit = getMaximumNumberOfCharacters();
 
-        String input = getInputFromUser(limit);
+        String input = getInput(limit);
 
         System.out.println("your limit is " + limit + "and your input is " + input);
 
@@ -34,7 +34,7 @@ public class Main {
     }
 
 
-    private static int getMaximumNumberOfCharactersFromUser() {
+    private static int getMaximumNumberOfCharacters() {
 
         int limitToInt=-1;
 
@@ -77,7 +77,51 @@ public class Main {
         return limitToInt;
     }
 
-    private static String getInputFromUser(int limit) {
+    private static String getInput(int limit) {
+
+        String inputToReturn = "";
+
+        while(true) {
+
+            System.out.println("Press q to exit the program");
+
+            System.out.print("Please enter your input(only space is not allowed!): ");
+
+            String input = scanner.next();
+
+            String trimmedInput = input.trim();
+
+            if (isProgramQuitting(trimmedInput)) {
+                System.out.println("see you later");
+                break;
+            }
+
+            try {
+
+
+                if(isInputLengthLessThanOrEqualToLimit(trimmedInput, limit)) {
+                    throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit.");
+
+                }
+
+                System.out.println(trimmedInput);
+                inputToReturn = trimmedInput;
+
+                break;
+
+
+            }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
+                System.out.println("Input length must be less than or equal to the limit. Please try again.");
+            }
+
+
+
+        }
+
+        return inputToReturn;
+    }
+
+    private static String getCaseSensitivityChoice(int limit) {
 
         String inputToReturn = "";
 
