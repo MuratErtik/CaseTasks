@@ -1,17 +1,40 @@
 package com.murat;
 
 
+import com.murat.exceptions.InputLengthMustBeLessThanOrEqualToLimitException;
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
 import java.util.Scanner;
 
 public class Main {
+
+    static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args)  {
 
 
         System.out.println("**********************************   FindMyChar    **************************************************");
         System.out.println("*****************************************************************************************************");
 
-        Scanner scanner = new Scanner(System.in);
+
+        int limit = getMaximumNumberOfCharactersFromUser();
+
+        String input = getInputFromUser(limit);
+
+        System.out.println("your limit is " + limit + "and your input is " + input);
+
+
+
+
+
+        System.out.println("**********************************   FindMyChar(Final)  **************************************************");
+        System.out.println("*****************************************************************************************************");
+
+
+
+    }
+
+
+    private static int getMaximumNumberOfCharactersFromUser() {
 
         int limitToInt=-1;
 
@@ -47,17 +70,55 @@ public class Main {
                 System.out.println("Please enter a positive number for the maximum number of characters.");
             }
 
+
+
         }
 
-        System.out.println("your limit is " + limitToInt);
+        return limitToInt;
+    }
+
+    private static String getInputFromUser(int limit) {
+
+        String inputToReturn = "";
+
+        while(true) {
+
+            System.out.println("Press q to exit the program");
+
+            System.out.print("Please enter your input(only space is not allowed!): ");
+
+            String input = scanner.next();
+
+            String trimmedInput = input.trim();
+
+            if (isProgramQuitting(trimmedInput)) {
+                System.out.println("see you later");
+                break;
+            }
+
+            try {
+
+
+                if(isInputLengthLessThanOrEqualToLimit(trimmedInput, limit)) {
+                    throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit.");
+
+                }
+
+                System.out.println(trimmedInput);
+                inputToReturn = trimmedInput;
+
+                break;
+
+
+            }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
+                System.out.println("Please enter input length must be less than or equal to the limit.");
+            }
 
 
 
-        System.out.println("**********************************   FindMyChar(Final)  **************************************************");
-        System.out.println("*****************************************************************************************************");
+        }
 
-
-
+        return inputToReturn;
     }
 
     private static Boolean isGreaterThanZero(int number) {
@@ -66,5 +127,9 @@ public class Main {
 
     private static Boolean isProgramQuitting(String input) {
         return input.equals("q");
+    }
+
+    private static Boolean isInputLengthLessThanOrEqualToLimit(String input, int limit) {
+        return input.length()>limit;
     }
 }
