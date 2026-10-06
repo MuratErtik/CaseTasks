@@ -1,6 +1,7 @@
 package com.murat;
 
 
+import com.murat.exceptions.ForAnalyzeNeedOneCharException;
 import com.murat.exceptions.InputLengthMustBeLessThanOrEqualToLimitException;
 import com.murat.exceptions.InputNotEqualYesOrNoException;
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
@@ -23,8 +24,9 @@ public class Main {
 
         String choice = getCaseSensitivityChoice();
 
-        System.out.println("your limit is " + limit + "and your input is " + input+ "and your choice is " + choice);
+        Character charToAnalyze = getCharToAnalyze(choice);
 
+        System.out.println("your limit is " + limit + "and your input is " + input+ "and your choice is " + choice+" and your character is " + charToAnalyze);
 
 
 
@@ -157,6 +159,52 @@ public class Main {
         }
 
         return choiceToReturn;
+    }
+
+    private static Character getCharToAnalyze(String choice) {
+
+        String inputToReturn = "";
+
+        while(true) {
+
+            System.out.println("Press q to exit the program");
+
+            System.out.print("Please enter your input to analyze: ");
+
+            String input = scanner.next();
+
+            String trimmedInput = input.trim();
+
+            if (isProgramQuitting(trimmedInput)) {
+                System.out.println("see you later");
+                break;
+            }
+
+
+            try {
+
+                if (trimmedInput.length()>1){
+                    throw new ForAnalyzeNeedOneCharException("For analyze it needs to only one character! Program wants to only one character");
+                }
+
+                System.out.println(trimmedInput);
+
+                inputToReturn = trimmedInput;
+
+                break;
+
+            }catch (ForAnalyzeNeedOneCharException e){
+                System.out.println("For analyze it needs to only one character! Program wants to only one character. Try again!");
+            }
+        }
+
+        if (choice.equals("y")) {
+            return inputToReturn.charAt(0);
+        }
+        else{
+            return inputToReturn.toLowerCase().charAt(0);
+        }
+
     }
 
     private static Boolean isGreaterThanZero(int number) {
