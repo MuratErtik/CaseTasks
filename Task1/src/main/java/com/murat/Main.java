@@ -26,6 +26,8 @@ public class Main {
 
         Character charToAnalyze = getCharToAnalyze(choice);
 
+        result(input,charToAnalyze,choice);
+
         System.out.println("your limit is " + limit + "and your input is " + input+ "and your choice is " + choice+" and your character is " + charToAnalyze);
 
 
@@ -49,7 +51,7 @@ public class Main {
 
             System.out.print("Before the starting please enter maximum number of characters: ");
 
-            String limit = scanner.next();
+            String limit = scanner.nextLine();
 
             String trimmedLimit = limit.trim();
 
@@ -92,7 +94,7 @@ public class Main {
 
             System.out.print("Please enter your input(only space is not allowed!): ");
 
-            String input = scanner.next();
+            String input = scanner.nextLine();
 
             String trimmedInput = input.trim();
 
@@ -134,7 +136,7 @@ public class Main {
 
             System.out.print("Do you want to case sensitivity choice? (y/n): ");
 
-            String choice = scanner.next();
+            String choice = scanner.nextLine();
 
             String trimmedChoice = choice.trim().substring(0, 1);
 
@@ -167,18 +169,12 @@ public class Main {
 
         while(true) {
 
-            System.out.println("Press q to exit the program");
-
             System.out.print("Please enter your input to analyze: ");
 
-            String input = scanner.next();
+            String input = scanner.nextLine();
 
             String trimmedInput = input.trim();
 
-            if (isProgramQuitting(trimmedInput)) {
-                System.out.println("see you later");
-                break;
-            }
 
 
             try {
@@ -204,6 +200,39 @@ public class Main {
         else{
             return inputToReturn.toLowerCase().charAt(0);
         }
+
+    }
+
+    private static void result(String input,Character charToAnalyze,String choice) {
+
+        if (input == null || choice == null || charToAnalyze == null) {
+            System.out.println("Invalid input.");
+            return;
+        }
+
+        boolean isCaseSensitive = "y".equalsIgnoreCase(choice.trim());
+
+        int count = 0;
+
+        if (isCaseSensitive) {
+            for (int i = 0; i < input.length(); i++) {
+                if (input.charAt(i) == charToAnalyze) {
+                    count++;
+                }
+            }
+        } else {
+            char targetLower = Character.toLowerCase(charToAnalyze);
+            for (int i = 0; i < input.length(); i++) {
+                if (Character.toLowerCase(input.charAt(i)) == targetLower) {
+                    count++;
+                }
+            }
+        }
+
+        System.out.println("Target character: '" + charToAnalyze + "'");
+        System.out.println("Case sensitive: " + (isCaseSensitive ? "Yes" : "No"));
+        System.out.println("count is -->" + count);
+
 
     }
 
