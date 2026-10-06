@@ -5,6 +5,7 @@ import com.murat.exceptions.ForAnalyzeNeedOneCharException;
 import com.murat.exceptions.InputLengthMustBeLessThanOrEqualToLimitException;
 import com.murat.exceptions.InputMustNotBeBlankException;
 import com.murat.exceptions.InputNotEqualYesOrNoException;
+import com.murat.exceptions.InvalidInputException;
 import com.murat.exceptions.LimitMustBeGreaterThanZeroException;
 import java.util.Scanner;
 
@@ -70,7 +71,7 @@ public class Main {
 
 
                 if (isGreaterThanZero(limitToInt)) {
-                    throw new LimitMustBeGreaterThanZeroException("Limit must be greater than 0");
+                    throw new LimitMustBeGreaterThanZeroException("Please enter a positive number for the maximum number of characters.");
                 }
 
                 break;
@@ -78,7 +79,7 @@ public class Main {
             }catch (NumberFormatException e){
                 System.out.println("Please enter a valid integer.");
             }catch (LimitMustBeGreaterThanZeroException e){
-                System.out.println("Please enter a positive number for the maximum number of characters.");
+                printError(e);
             }
 
 
@@ -103,11 +104,11 @@ public class Main {
             try {
 
                 if (trimmedInput.isEmpty()) {
-                    throw new InputMustNotBeBlankException("Input must not be blank.");
+                    throw new InputMustNotBeBlankException("Input must not be blank. Please try again.");
                 }
 
                 if(isInputLengthLessThanOrEqualToLimit(trimmedInput, limit)) {
-                    throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit.");
+                    throw new InputLengthMustBeLessThanOrEqualToLimitException("Input length must be less than or equal to the limit. Please try again.");
 
                 }
 
@@ -118,9 +119,9 @@ public class Main {
 
 
             }catch (InputMustNotBeBlankException e){
-                System.out.println("Input must not be blank. Please try again.");
+                printError(e);
             }catch (InputLengthMustBeLessThanOrEqualToLimitException e){
-                System.out.println("Input length must be less than or equal to the limit. Please try again.");
+                printError(e);
             }
 
 
@@ -151,7 +152,7 @@ public class Main {
 
 
                 if(isInputNotEqualYesOrNo(trimmedChoice)) {
-                    throw new InputNotEqualYesOrNoException("Choice must be only Yes(y/Y) or No(n/N).");
+                    throw new InputNotEqualYesOrNoException("Choice must be only Yes(y/Y) or No(n/N). Please try again.");
 
                 }
 
@@ -162,7 +163,7 @@ public class Main {
 
 
             }catch (InputNotEqualYesOrNoException e){
-                System.out.println("Choice must be only Yes(y/Y) or No(n/N). Please try again.");
+                printError(e);
             }
 
         }
@@ -187,7 +188,7 @@ public class Main {
             try {
 
                 if (trimmedInput.length() != 1){
-                    throw new ForAnalyzeNeedOneCharException("For analyze it needs to only one character! Program wants to only one character");
+                    throw new ForAnalyzeNeedOneCharException("For analyze it needs to only one character! Program wants to only one character. Try again!");
                 }
 
                 System.out.println(trimmedInput);
@@ -197,7 +198,7 @@ public class Main {
                 break;
 
             }catch (ForAnalyzeNeedOneCharException e){
-                System.out.println("For analyze it needs to only one character! Program wants to only one character. Try again!");
+                printError(e);
             }
         }
 
@@ -251,5 +252,10 @@ public class Main {
         input = input.toLowerCase();
 
         return  !(input.equals("no") || input.equals("n") || input.equals("yes") || input.equals("y"));
+    }
+
+    // Single place that decides how validation errors are shown to the user.
+    private static void printError(InvalidInputException e) {
+        System.out.println(e.getMessage());
     }
 }
