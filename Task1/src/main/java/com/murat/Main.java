@@ -25,7 +25,7 @@ public class Main {
 
             String trimmedLimit = limit.trim();
 
-            if (trimmedLimit.equals("q")) {
+            if (isProgramQuitting(trimmedLimit)) {
                 System.out.println("see you later");
                 break;
             }
@@ -62,5 +62,9 @@ public class Main {
 
     private static Boolean isGreaterThanZero(int number) {
         return number < 1 ;
+    }
+
+    private static Boolean isProgramQuitting(String input) {
+        return input.equals("q");
     }
 }
