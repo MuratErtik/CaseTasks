@@ -89,6 +89,34 @@ public class Main {
         System.out.println(product.getName() + " added to your cart.");
     }
 
+    private static int getCartQuantity(Cart cart, Product product) {
+
+        while (true) {
+
+            System.out.print("Quantity to add: ");
+
+            String input = scanner.nextLine().trim();
+
+            try {
+
+                int quantity = Integer.parseInt(input);
+
+                int remaining = cart.getRemainingStock(product);
+
+                if (quantity < 1) {
+                    System.out.println("Quantity must be at least 1.");
+                } else if (quantity > remaining) {
+                    System.out.println("Not enough stock. You can add at most " + remaining + " more.");
+                } else {
+                    return quantity;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
+
 
     private static Product getCartProduct(Cart cart, List<Product> products) {
 
