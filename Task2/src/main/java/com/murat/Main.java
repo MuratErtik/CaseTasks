@@ -2,6 +2,7 @@ package com.murat;
 
 
 import com.murat.domain.Cart;
+import com.murat.domain.CartItem;
 import com.murat.domain.DiscountCalculator;
 import com.murat.domain.Product;
 
@@ -40,6 +41,7 @@ public class Main {
 
         Cart cart = fillCart(products);
 
+        printCartSummary(cart);
 
 
 
@@ -47,6 +49,45 @@ public class Main {
 
 
 
+
+    }
+
+
+    private static void printCartSummary(Cart cart) {
+
+        List<CartItem> items = cart.getItems();
+
+        if (items.isEmpty()) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
+        BigDecimal totalDiscount = BigDecimal.ZERO;
+        BigDecimal cartTotal = BigDecimal.ZERO;
+
+        System.out.println("Your cart:");
+
+        for (int i = 0; i < items.size(); i++) {
+
+            CartItem item = items.get(i);
+
+            BigDecimal withoutDiscountLineTotal = item.getProduct().getUnitPrice()
+                    .multiply(BigDecimal.valueOf(item.getQuantity()));
+
+            BigDecimal lineDiscount = DiscountCalculator.getLineDiscount(items, i);
+
+            BigDecimal lineTotal = withoutDiscountLineTotal.subtract(lineDiscount);
+
+            System.out.println(item.getProduct().getName()
+                    + " - Quantity: " + item.getQuantity()
+                    + ", Total Price: " + lineTotal.setScale(2, RoundingMode.HALF_UP).toPlainString());
+
+            totalDiscount = totalDiscount.add(lineDiscount);
+            cartTotal = cartTotal.add(lineTotal);
+        }
+
+        System.out.println("Total Discount: " + totalDiscount.setScale(2, RoundingMode.HALF_UP).toPlainString());
+        System.out.println("Cart Total: " + cartTotal.setScale(2, RoundingMode.HALF_UP).toPlainString());
     }
 
     private static Cart fillCart(List<Product> products) {

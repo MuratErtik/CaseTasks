@@ -33,7 +33,7 @@ public class DiscountCalculator {
 
             if (result > 0) {
 
-                BigDecimal unitDiscount = giveDiscount(firstItem, secondItem);
+                BigDecimal unitDiscount = giveDiscount(secondItem);
 
                 BigDecimal lineDiscount = unitDiscount.multiply(BigDecimal.valueOf(firstItem.getQuantity()));
 
@@ -79,7 +79,7 @@ public class DiscountCalculator {
         int result = firstItem.getProduct().getUnitPrice().compareTo(secondItem.getProduct().getUnitPrice());
 
         if (result > 0) {
-            return giveDiscount(firstItem, secondItem).multiply(BigDecimal.valueOf(firstItem.getQuantity()));
+            return giveDiscount(secondItem).multiply(BigDecimal.valueOf(firstItem.getQuantity()));
         }
 
         return BigDecimal.ZERO;
@@ -88,9 +88,10 @@ public class DiscountCalculator {
     // Discount per unit of the first item.
     // If your assumption changes, this is the only line to edit:
     // for "second item's unit price" use: return secondItem.getProduct().getUnitPrice();
-    private static BigDecimal giveDiscount(CartItem firstItem, CartItem secondItem) {
+    // Discount per unit of the first item: the unit price of the second item.
+    private static BigDecimal giveDiscount( CartItem secondItem) {
 
-        return firstItem.getProduct().getUnitPrice().subtract(secondItem.getProduct().getUnitPrice());
+        return secondItem.getProduct().getUnitPrice();
     }
 
     private static String format(BigDecimal value) {
