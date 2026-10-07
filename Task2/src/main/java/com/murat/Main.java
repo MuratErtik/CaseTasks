@@ -78,6 +78,17 @@ public class Main {
         return cart;
     }
 
+    private static void addProductToCart(Cart cart, List<Product> products) {
+
+        Product product = readCartProduct(cart, products);
+
+        int quantity = readCartQuantity(cart, product);
+
+        cart.add(product, quantity);
+
+        System.out.println(product.getName() + " added to your cart.");
+    }
+
 
 
     private static boolean getYesNo(String input) {
