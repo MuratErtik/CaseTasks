@@ -146,7 +146,6 @@ Cart Total: 6.00
 - **The original product list is never modified by sorting.** Sorting works on a copy. Ties are broken by name (ascending), even when the main order is descending.
 - **Input validation is local to each field.** Each prompt is its own `while` loop that keeps asking until the value is valid, so a wrong value only repeats that one question. Task 2 deliberately does not use custom exceptions: unlike Task 1, there is a single flow and every rule is a one-line check inside its loop, so exceptions would only add classes without adding clarity. The only exception handled is `NumberFormatException` from number parsing.
 - **Separation of concerns.** `Cart` and `Product` contain no printing or input code. `Main` owns all console interaction. `DiscountCalculator` holds the discount rule in one place (`giveDiscount`), so changing the rule means changing one method. Both the per-step explanation and the final summary use the same rule and cannot drift apart.
-- **No unnecessary patterns.** No Singleton, Repository, Builder or Observer. The model is four small classes and the problem does not need more.
 
 ### Assumptions and limitations
 
