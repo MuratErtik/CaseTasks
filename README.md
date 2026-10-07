@@ -91,16 +91,9 @@ Cart lines are processed in the order they were added. For each line `A` that ha
 
 The calculation is repeated from the whole cart after every addition. Adding more of an existing product therefore updates its discount automatically.
 
-**Example 1 (from the specification):** Defter 3.00 × 2, Kalem 1.50 × 2
 
-| Line | Discount | Line total |
-|---|---|---|
-| Defter | 1.50 × 2 = 3.00 | 6.00 − 3.00 = 3.00 |
-| Kalem | none (last line) | 3.00 |
 
-Total discount **3.00**, cart total **6.00**.
-
-**Example 2 (chain):** A 10 × 1, B 6 × 2, C 8 × 1, D 2 × 3
+**Example (chain):** A 10 × 1, B 6 × 2, C 8 × 1, D 2 × 3
 
 | Line | Discount | Line total |
 |---|---|---|
@@ -111,7 +104,7 @@ Total discount **3.00**, cart total **6.00**.
 
 Total discount **8.00**, cart total **28.00**.
 
-### Example run (abridged)
+### Example run 
 
 ```
 How many different products do you want to add? 2
@@ -157,12 +150,11 @@ Cart Total: 6.00
 
 ### Assumptions and limitations
 
-- "Birden fazla farklı ürün" (more than one different product) is read as **at least 2 different products**, both for the product list and for the cart. Adding the same product twice counts as one product.
+- (more than one different product) is read as **at least 2 different products**, both for the product list and for the cart. Adding the same product twice counts as one product.
 - Price and rating limits include both ends (1 and 100, 1 and 5). Stock must be at least 1.
 - The discount formula follows the specification ("a discount equal to the unit cost of the second product") and is applied per unit of the first line, so a line with quantity 3 gets 3 × the next unit price. The specification example gives the same result under either reading; Example 2 above shows how this implementation behaves on a longer chain.
 - Product names are unique (case-insensitive), because the cart finds products by name. Name lookup in the cart is also case-insensitive and trimmed.
 - The decimal separator for price and rating is a dot (`1.50`).
-- The specification example prints "Kalem sepetinize eklendi" for Defter as well; this looks like a copy mistake, so the program prints the actual product name.
 - All messages are in English. Accepted yes/no answers are `Yes` and `No` (any case) for this task.
 - The program is single-threaded and a single `Scanner` on standard input is shared by all methods.
 
@@ -172,7 +164,7 @@ Checked by running the program and by hand calculation:
 
 | Scenario | Result |
 |---|---|
-| Both specification examples (Example 1 and Example 2 above) | 6.00 / 3.00 and 28.00 / 8.00 |
+| Both specification examples (Example above) | 6.00 / 3.00 and 28.00 / 8.00 |
 | Sort by name, stock and rating in both orders, equal values | Correct order, ties by name |
 | Unknown product name | Warning, only the name is asked again |
 | Quantity above remaining stock | Warning with the maximum allowed, only the quantity is asked again |
