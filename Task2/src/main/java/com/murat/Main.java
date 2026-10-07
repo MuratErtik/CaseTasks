@@ -80,13 +80,45 @@ public class Main {
 
     private static void addProductToCart(Cart cart, List<Product> products) {
 
-        Product product = readCartProduct(cart, products);
+        Product product = getCartProduct(cart, products);
 
-        int quantity = readCartQuantity(cart, product);
+        int quantity = getCartQuantity(cart, product);
 
         cart.add(product, quantity);
 
         System.out.println(product.getName() + " added to your cart.");
+    }
+
+
+    private static Product getCartProduct(Cart cart, List<Product> products) {
+
+        while (true) {
+
+            System.out.print("Name of the product you want to add: ");
+
+            String name = scanner.nextLine().trim();
+
+            Product product = findProductByName(products, name);
+
+            if (product == null) {
+                System.out.println("Product not found.");
+            } else if (cart.getRemainingStock(product) == 0) {
+                System.out.println("No stock left for " + product.getName() + ".");
+            } else {
+                return product;
+            }
+        }
+    }
+
+    private static Product findProductByName(List<Product> products, String name) {
+
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+
+        return null;
     }
 
 
