@@ -1,6 +1,8 @@
 package com.murat;
 
 
+import com.murat.domain.Cart;
+import com.murat.domain.DiscountCalculator;
 import com.murat.domain.Product;
 
 import java.math.BigDecimal;
@@ -36,9 +38,69 @@ public class Main {
 
         printProducts(sortedProducts);
 
+        Cart cart = fillCart(products);
+
+
+
+
+
+
 
 
     }
+
+    private static Cart fillCart(List<Product> products) {
+
+        Cart cart = new Cart();
+
+        if (!getYesNo("Do you want to add products to your cart? (Yes/No): ")) {
+            return cart;
+        }
+
+        while (true) {
+
+            addProductToCart(cart, products);
+
+            // recalculates from the whole cart and prints the discount info
+            DiscountCalculator.comparativeDiscount(cart);
+
+            if (getYesNo("Do you want to add another product? (Yes/No): ")) {
+                continue;
+            }
+
+            if (cart.getItems().size() >= 2) {
+                break;
+            }
+
+            System.out.println("You must add at least 2 different products.");
+        }
+
+        return cart;
+    }
+
+
+
+    private static boolean getYesNo(String input) {
+
+        while (true) {
+
+            System.out.print(input);
+
+            String trimmedInput = scanner.nextLine().trim().toLowerCase();
+
+            if (trimmedInput.equals("yes")) {
+                return true;
+            }
+            if (trimmedInput.equals("no")) {
+                return false;
+            }
+
+            System.out.println("Please enter a valid answer.");
+        }
+    }
+
+
+
 
     private static List<Product> sortProducts(List<Product> products, String criteria, boolean ascending) {
 
